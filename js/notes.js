@@ -51,51 +51,51 @@ export class NoteComponent {
     const noteHeader = document.createElement("div");
     noteHeader.classList.add("note-header");
 
+    noteHeader.addEventListener("click", ({ target: { dataset } }) => {
+      const { action } = dataset;
+
+      if (action === "save") this.save();
+      if (action === "edit") this.enableEditMode();
+      if (action === "delete") this.delete();
+    });
+
     const actions = [
-      { name: "save", iconClass: "fa-check", handler: () => this.save() },
+      { name: "save", classname: "fa-check" },
       {
         name: "edit",
-        iconClass: "fa-edit",
-        handler: () => this.enableEditMode(),
+        classname: "fa-edit",
       },
       {
         name: "delete",
-        iconClass: "fa-trash-alt",
-        handler: () => this.delete(),
+        classname: "fa-trash-alt",
       },
     ];
 
-    noteHeader.append(
-      ...actions.map(({ name, iconClass, handler }) => {
-        const btn = document.createElement("button");
-        const icon = document.createElement("i");
-
-        icon.classList.add("fas", iconClass);
-        btn.classList.add("note-btn");
-
-        btn.setAttribute("data-action", name);
-        btn.append(icon);
-
-        btn.addEventListener("click", handler);
-
-        return btn;
+    noteHeader.innerHTML = actions
+      .map(({ name, classname }) => {
+        return `
+        <button data-action="${name}" class="note-btn">
+          <i class="fas ${classname}"></i>
+        </button>
+      `;
       })
-    );
+      .join("");
 
-    const noteTextarea = document.createElement("div");
-    noteTextarea.classList.add("note-textarea");
+    const noteContent = document.createElement("div");
+    noteContent.classList.add("note-content");
 
-    const textareaInput = document.createElement("textarea");
-    textareaInput.setAttribute("maxlength", "256");
-    textareaInput.setAttribute("readonly", "");
-    textareaInput.setAttribute("placeholder", "Your text here...");
-    textareaInput.value = this.note.text;
+    const textarea = document.createElement("textarea");
+    textarea.setAttribute("maxlength", "256");
+    textarea.setAttribute("readonly", "");
+    textarea.setAttribute("placeholder", "Your text here...");
+    textarea.value = this.note.text;
 
-    textareaInput.addEventListener("blur", () => this.disableEditMode());
-    textareaInput.addEventListener("click", () => this.enableEditMode());
+    textarea.addEventListener("blur", () => this.disableEditMode());
+    textarea.addEventListener("click", () => this.enableEditMode());
 
-    noteTextarea.appendChild(textareaInput);
-    rootEl.append(noteHeader, noteTextarea);
+    noteContent.appendChild(textarea);
+    rootEl.append(noteHeader, noteContent);
+
     return rootEl;
   }
 
@@ -120,7 +120,6 @@ export class NoteComponent {
 
   disableEditMode() {
     const textarea = this.root.querySelector("textarea");
-    
 
     setTimeout(() => {
       textarea.value = this.note.text;

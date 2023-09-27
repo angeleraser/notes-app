@@ -55,8 +55,8 @@
 }
 
 .note-header,
-.note-textarea,
-.note-textarea textarea {
+.note-content,
+.note-content textarea {
   padding: 12px;
 }
 
@@ -68,7 +68,7 @@
   background-color: var(--blue);
 }
 
-.note-textarea textarea {
+.note-content textarea {
   resize: none;
   height: 320px;
   width: 100%;
@@ -80,15 +80,15 @@
   outline-color: transparent;
 }
 
-.note-textarea textarea:read-only {
+.note-content textarea:read-only {
   cursor: pointer;
 }
 
-.note-textarea textarea::placeholder {
+.note-content textarea::placeholder {
   color: var(--gray);
 }
 
-.note-textarea textarea:not(:read-only) {
+.note-content textarea:not(:read-only) {
   background-color: var(--white);
   outline: 2px solid var(--darkblue);
   pointer-events: initial;
@@ -102,6 +102,10 @@
   min-height: 32px;
   font-size: 18px;
   cursor: pointer;
+}
+
+.note-btn > * {
+  pointer-events: none;
 }
 
 .note-btn[data-action="save"] {
