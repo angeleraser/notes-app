@@ -35,11 +35,13 @@
   display: flex;
   align-items: center;
   text-align: center;
-  content: "Click the + button to start creating your notes!";
+  content: "Click (+) to start creating your notes!";
   justify-content: center;
   height: calc(100vh - 40px);
+  max-width: 90%;
   font-size: 32px;
   opacity: 0.4;
+  position: absolute;
   margin: 0 auto;
 }
 
